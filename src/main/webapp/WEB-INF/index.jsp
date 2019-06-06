@@ -1,5 +1,6 @@
 <%@ page import="java.util.Calendar" %>
 <%@ page import="com.mantiso.User" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +10,17 @@
     <link href="app.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<%--
 <%@include file="_header.jsp" %>
+--%>
+
+<c:import url="_header.jsp" var="_header"/>
+${_header}
+
+<%--
+${_header}
+--%>
+
 <section class="main container-fluid">
     <%
         Calendar calendar = Calendar.getInstance();
@@ -18,22 +29,44 @@
         <h1>Home</h1>
         <div class="row-fluid">
             <div class="col-md-3">
+                <c:out value="Hello Julie World"/>
+                <br/>
                 <%= calendar.getTime().toString() %>
             </div>
             <div class="col-md-9">
+                <ul class="nav nav-tabs">
+                    <c:forEach items="${app.tabs}" var="tab">
+                        <li><a href=${tab.url} data-toggle="tab">${tab.name}</a></li>
+                    </c:forEach>
+                 </ul>
+
+<%--
                 <ul class="nav nav-tabs">
                     <li><a href="#home" data-toggle="tab">${app.tabNames[0]}</a></li>
                     <li><a href="#other" data-toggle="tab">${app.tabNames[1]}</a></li>
                     <li><a href="#messages" data-toggle="tab">${app.tabNames[2]}</a></li>
                     <li><a href="#settings" data-toggle="tab">${app.tabNames[3]}</a></li>
                 </ul>
-
+--%>
             <tabset>
                     <tab heading="Search">
                         <div class="${app.formCssClass.name}">
-                            <h2>Welcome ${user.name}</h2>
-                            <h2>${user.name == "Julie"}</h2>
-                            <h2>${3+2}</h2>
+                            <c:choose>
+                                <c:when test="${!empty user.name}">
+                                    <h2>Welcome ${user.name}!!!!</h2>
+                                </c:when>
+                                <c:otherwise>
+                                   <h2>Welcome whoever you are!!!!</h2>
+                                </c:otherwise>
+                            </c:choose>
+<%--
+                            <c:if test="${!empty user.name}">
+                                <h2>Welcome ${user.name}</h2>
+                            </c:if>
+                            <c:if test="${empty user.name}">
+                                <h2>Welcome whoever you are!</h2>
+                            </c:if>
+--%>
                             <form action="home" method="post">
                                 <p>
                                     Name: <input type="text" name="name"/>

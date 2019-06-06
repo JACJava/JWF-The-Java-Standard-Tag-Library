@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ControllerServlet extends HttpServlet {
@@ -16,9 +17,18 @@ public class ControllerServlet extends HttpServlet {
         ApplicationSettings applicationSettings = new ApplicationSettings();
         CssClass cssClass = new CssClass();
         cssClass.setName("redUser");
-        String[] tabNames = {"SignIn", "Home", "Profile", "SettingsJAK"};
+
+        List<Tab> tabs = new ArrayList<>();
+        tabs.add(new Tab("SignIn", "#signin"));
+        tabs.add(new Tab("Home", "#home"));
+        tabs.add(new Tab("Profile", "#profile"));
+        tabs.add(new Tab("MessagesJAK", "#messages"));
+        tabs.add(new Tab("Settings", "#settings"));
+        applicationSettings.setTabs(tabs);
+
+        //String[] tabNames = {"SignIn", "Home", "Profile", "SettingsJAK"};
         applicationSettings.setformCssClass(cssClass);
-        applicationSettings.setTabNames(tabNames);
+        //applicationSettings.setTabNames(tabNames);
         getServletContext().setAttribute("app", applicationSettings );
     }
 
